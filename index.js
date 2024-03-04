@@ -161,13 +161,7 @@ let generateCalendorDates = (numberOfDays, currentMonth) => {
 
 let calendorCardsCreate = (currentYear) => {
   // Here I'm creating month's card on basis of the list.
-  if (currentYear === "2001") {
-    firstDay = "Mo";
-  } else {
-    let test = currentYear - baseYear.year;
 
-    // firstDay =
-  }
   let calendorCont = document.createElement("div");
   calendorCont.classList.add("calendorContainer");
   calendorCont.setAttribute("id", "Year " + currentYear);
@@ -212,12 +206,15 @@ let calendorCardsCreate = (currentYear) => {
     monthsCont.appendChild(daysRow);
     monthsCont.appendChild(daysCont);
     calendorCont.appendChild(monthsCont);
-
-    // The below code is written to highlight the current date of the month.
-    let today = new Date();
-    let date = today.getDate();
-    let month = today.getMonth();
+  }
+  // The below code is written to highlight the current date of the month.
+  let today = new Date();
+  let date = today.getDate();
+  let month = today.getMonth();
+  let year = today.getFullYear();
+  if (document.getElementById("Year " + year)) {
     let currentMonth = monthList[month];
+    console.log("Current Year");
     if (document.getElementById(date + "-" + currentMonth)) {
       let selectedColumn = document.getElementById(date + "-" + currentMonth);
       selectedColumn.style.backgroundColor = "black";
@@ -243,7 +240,6 @@ let currentYearHandler = (e) => {
           firstDay = weekDays[i + dayIndex];
         } else {
           let division = Math.floor(difference / base);
-          console.log(division);
           let calculate = difference + division;
           let dayIndex = calculate % 7;
           if (dayIndex === 0) {
@@ -280,14 +276,13 @@ let currentYearHandler = (e) => {
 };
 
 let defaultCalendorYear = (() => {
-  calendorCardsCreate(baseYear.year, "2001");
+  calendorCardsCreate(baseYear.year);
 })();
 
 let calendorYearSelection = () => {
   let year = document.getElementById("yearSelector");
   if (year.selectedIndex >= 0) {
     let requiredYearCalendor = year.options[year.selectedIndex].value;
-    console.log(requiredYearCalendor);
     if (prevYear !== requiredYearCalendor) {
       let removeCont = document.getElementById("Year " + prevYear);
       removeCont.parentNode.removeChild(removeCont);
