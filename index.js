@@ -53,7 +53,7 @@ let weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 let commonYear = 365;
 let leapYear = 366;
 
-let requiredEndYear = "2024";
+let requiredEndYear = "2050";
 
 let initialDay = 0;
 
@@ -227,26 +227,56 @@ let calendorCardsCreate = (currentYear) => {
 let currentYearHandler = (e) => {
   let yearType;
   let leapYearChecker = e % 4;
-
+  let testObj = { 0: "Mo" };
   if (e === "2001") {
     firstDay = "Mo";
   } else {
+    // Solution 1 (Self created formula).
+
+    // for (let i = 0; i < weekDays.length; i++) {
+    //   if (endDay === weekDays[i]) {
+    //     let base = 4;
+    //     let difference = e - baseYear.year;
+    //     if (difference < 4) {
+    //       let dayIndex = difference;
+    //       firstDay = weekDays[i + dayIndex];
+    //     } else {
+    //       let division = Math.floor(difference / base);
+    //       let calculate = difference + division;
+    //       let dayIndex = calculate % 7;
+    //       if (dayIndex === 0) {
+    //         firstDay = "Mo";
+    //       } else {
+    //         firstDay = weekDays[i + dayIndex];
+    //       }
+    //     }
+    //   }
+    // }
+
+    // Solution 2 (Guided by Manish Sir).
+
     for (let i = 0; i < weekDays.length; i++) {
       if (endDay === weekDays[i]) {
         let base = 4;
+        let leapYearCount = 0;
         let difference = e - baseYear.year;
-        if (difference < 4) {
-          let dayIndex = difference;
-          firstDay = weekDays[i + dayIndex];
-        } else {
-          let division = Math.floor(difference / base);
-          let calculate = difference + division;
-          let dayIndex = calculate % 7;
-          if (dayIndex === 0) {
-            firstDay = "Mo";
-          } else {
-            firstDay = weekDays[i + dayIndex];
+
+        // In the below loop I'm checking the number of leap year's in between.
+        for (let j = 0; j < difference; j++) {
+          let currentYear = parseInt(baseYear.year) + j;
+          let leapYearCheckOperation = currentYear % base;
+          if (leapYearCheckOperation === 0) {
+            leapYearCount = leapYearCount + 1;
           }
+        }
+        let dayIndex = (difference * 365) % 7;
+        let temp = dayIndex + leapYearCount;
+        if (temp % 7 === 0) {
+          // Here I'm updating the first day.
+          firstDay = "Mo";
+        } else {
+          // Here I'm updating the first day.
+          firstDay = weekDays[i + (dayIndex + leapYearCount)];
         }
       }
     }
