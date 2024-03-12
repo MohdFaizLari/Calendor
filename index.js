@@ -53,7 +53,7 @@ let weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 let commonYear = 365;
 let leapYear = 366;
 
-let requiredEndYear = "2050";
+let requiredEndYear = "2100";
 
 let initialDay = 0;
 
@@ -257,6 +257,10 @@ let currentYearHandler = (e) => {
 
     for (let i = 0; i < weekDays.length; i++) {
       if (endDay === weekDays[i]) {
+        let monthId = "February";
+        let monthSelect = monthMapper[monthId];
+        let monthSelected = monthInfo[monthSelect];
+
         let base = 4;
         let leapYearCount = 0;
         let difference = e - baseYear.year;
@@ -274,6 +278,11 @@ let currentYearHandler = (e) => {
         if (calculate % 7 === 0) {
           // Here I'm updating the first day.
           firstDay = "Mo";
+
+          // Updating the total day's of februaury on basis of non-leap Year.
+          monthSelected.endDate = "29";
+          calendorCardsCreate(e);
+          console.log("It's a Common Year.");
         } else {
           // Here I'm updating the first day.
           if (calculate > 7) {
@@ -281,32 +290,39 @@ let currentYearHandler = (e) => {
           } else {
             firstDay = weekDays[i + calculate];
           }
+
+          // Updating the total day's of februaury on basis of non-leap Year.
+          monthSelected.endDate = "28";
+          calendorCardsCreate(e);
+          console.log("It's a Common Year.");
         }
       }
     }
   }
 
-  if (leapYearChecker > 0) {
-    yearType = commonYear;
-    let monthId = "February";
-    let monthSelect = monthMapper[monthId];
-    let monthSelected = monthInfo[monthSelect];
-    monthSelected.endDate = "28";
-    calendorCardsCreate(e);
-    console.log("It's a Common Year.");
-  } else {
-    yearType = leapYear;
-    for (let i = 0; i < monthList.length; i++) {
-      if (monthList[i] === "February") {
-        let monthId = monthList[i];
-        let monthSelect = monthMapper[monthId];
-        let monthSelected = monthInfo[monthSelect];
-        monthSelected.endDate = "29";
-      }
-    }
-    calendorCardsCreate(e);
-    console.log("It's a Leap Year.");
-  }
+  // Solution 1 for updating February days(Applicable if we will use solution 1 in upper line of codes).
+
+  // if (leapYearChecker > 0) {
+  //   yearType = commonYear;
+  //   let monthId = "February";
+  //   let monthSelect = monthMapper[monthId];
+  //   let monthSelected = monthInfo[monthSelect];
+  //   monthSelected.endDate = "28";
+  //   calendorCardsCreate(e);
+  //   console.log("It's a Common Year.");
+  // } else {
+  //   yearType = leapYear;
+  //   for (let i = 0; i < monthList.length; i++) {
+  //     if (monthList[i] === "February") {
+  //       let monthId = monthList[i];
+  //       let monthSelect = monthMapper[monthId];
+  //       let monthSelected = monthInfo[monthSelect];
+  //       monthSelected.endDate = "29";
+  //     }
+  //   }
+  //   calendorCardsCreate(e);
+  //   console.log("It's a Leap Year.");
+  // }
 };
 
 let defaultCalendorYear = (() => {
