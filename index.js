@@ -270,13 +270,17 @@ let currentYearHandler = (e) => {
           }
         }
         let dayIndex = (difference * 365) % 7;
-        let temp = dayIndex + leapYearCount;
-        if (temp % 7 === 0) {
+        let calculate = dayIndex + leapYearCount;
+        if (calculate % 7 === 0) {
           // Here I'm updating the first day.
           firstDay = "Mo";
         } else {
           // Here I'm updating the first day.
-          firstDay = weekDays[i + (dayIndex + leapYearCount)];
+          if (calculate > 7) {
+            firstDay = weekDays[i + (calculate % 7)];
+          } else {
+            firstDay = weekDays[i + calculate];
+          }
         }
       }
     }
