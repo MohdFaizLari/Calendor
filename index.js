@@ -161,11 +161,12 @@ let generateCalendorDates = (numberOfDays, currentMonth) => {
 
 let calendorCardsCreate = (currentYear) => {
   // Here I'm creating month's card on basis of the list.
+  console.log(currentYear);
 
   let calendorCont = document.createElement("div");
   calendorCont.classList.add("calendorContainer");
   calendorCont.setAttribute("id", "Year " + currentYear);
-  document.getElementById("mainCont").appendChild(calendorCont);
+  document.getElementById("calendorCont").appendChild(calendorCont);
 
   for (let i = 0; i < monthList.length; i++) {
     let monthId = monthList[i];
@@ -227,9 +228,9 @@ let calendorCardsCreate = (currentYear) => {
 let currentYearHandler = (e) => {
   let yearType;
   let leapYearChecker = e % 4;
-  let testObj = { 0: "Mo" };
   if (e === "2001") {
     firstDay = "Mo";
+    calendorCardsCreate(e);
   } else {
     // Solution 1 (Self created formula).
 
@@ -329,8 +330,9 @@ let defaultCalendorYear = (() => {
   calendorCardsCreate(baseYear.year);
 })();
 
-let calendorYearSelection = () => {
+let calendorYearSelection = (e) => {
   let year = document.getElementById("yearSelector");
+  // console.log(e.target[year.selectedIndex].value);
   if (year.selectedIndex >= 0) {
     let requiredYearCalendor = year.options[year.selectedIndex].value;
     if (prevYear !== requiredYearCalendor) {
