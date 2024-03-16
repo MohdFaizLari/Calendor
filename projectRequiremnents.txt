@@ -1,9 +1,0 @@
-Points--->
-
-1) Need to add Functionality of adding an event.
-- We can store the events inside an object.
-- Event start and end date should be stored inside that object.
-  ex - start_date: 24-3-2024, end_date: 25-3-2024
-- User should be able to add single day and multiple day's event.
-- For showing the event on calendor we can add some sort of symbol to identify.
-- The days which contains event should be coloured (For now it's green).
