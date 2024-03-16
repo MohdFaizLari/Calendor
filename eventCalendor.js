@@ -2,8 +2,36 @@
 let baseYear = { year: "2001", type: "Common-Year" };
 let firstDay = "Mo";
 let endDay = "Mo";
-
 let prevYear = "2001";
+
+let events = {
+  years: [
+    {
+      year: "2001",
+      month: "March",
+      start_date: "15-March-2001",
+      end_date: "17-March-2001",
+      name: "Doctor Appointment",
+    },
+    {
+      year: "2024",
+      month: "March",
+      start_date: "15-March-2024",
+      end_date: "16-March-2024",
+      name: "Calendor Project",
+    },
+    {
+      year: "2024",
+      month: "March",
+      start_date: "15-March-2024",
+      end_date: "17-March-2024",
+      name: "Self Learning",
+    },
+  ],
+};
+
+// The below variable is to store the event dates.
+// let allEventDays = {};
 
 let monthInfo = {
   jan: { endDate: "31" },
@@ -84,8 +112,10 @@ let selectColumn = (e) => {
   // }
 };
 
-let generateCalendorDates = (numberOfDays, currentMonth) => {
+let generateCalendorDates = (numberOfDays, currentMonth, currentYear) => {
   let initialDate = 1;
+  // let startDate = null;
+  // let endDate = null;
   let date = initialDate;
   let numberOfRows = Math.ceil(numberOfDays / 7);
   if (date < numberOfDays) {
@@ -116,7 +146,7 @@ let generateCalendorDates = (numberOfDays, currentMonth) => {
     for (let j = 0; j < 7; j++) {
       if (j < k) {
         let column = document.createElement("div");
-        column.setAttribute("id", currentMonth);
+        column.setAttribute("id", currentMonth + "-" + currentYear);
         column.style.display = "flex";
         column.style.padding = "5px";
         column.style.justifyContent = "center";
@@ -132,7 +162,41 @@ let generateCalendorDates = (numberOfDays, currentMonth) => {
       } else if (date <= numberOfDays) {
         let column = document.createElement("div");
         column.classList.add("columns");
-        column.setAttribute("id", date + "-" + currentMonth);
+        column.setAttribute(
+          "id",
+          date + "-" + currentMonth + "-" + currentYear
+        );
+
+        // for (let l = 0; l < events.years.length; l++) {
+        //   let date = 1;
+        //   let allEventDays = {};
+        //   let selectedYear = events.years[l];
+        //   let eventStartDate = selectedYear.start_date;
+        //   let eventEndDate = selectedYear.end_date;
+        //   endDate = eventEndDate;
+        //   // console.log(eventStartDate, eventEndDate);
+        //   if (currentYear === selectedYear.year) {
+        //     startDate = eventStartDate.split("-");
+        //     startDate = startDate[0];
+        //     endDate = eventEndDate.split("-");
+        //     endDate = endDate[0];
+
+        //     if (currentMonth === selectedYear.month) {
+        //       let totalDays = endDate - startDate;
+        //       console.log(totalDays);
+
+        //       for (let m =0;m<totalDays;m++) {
+
+        //       }
+
+        //       // if (date == initalDate) {
+        //       //   column.style.backgroundColor = "lightblue";
+        //       //   column.style.fontWeight = "600";
+        //       // }
+        //     }
+        //   }
+        // }
+
         column.style.display = "flex";
         column.style.padding = "5px";
         column.style.justifyContent = "center";
@@ -161,7 +225,6 @@ let generateCalendorDates = (numberOfDays, currentMonth) => {
 
 let calendorCardsCreate = (currentYear) => {
   // Here I'm creating month's card on basis of the list.
-  console.log(currentYear);
 
   let calendorCont = document.createElement("div");
   calendorCont.classList.add("calendorContainer");
@@ -201,13 +264,28 @@ let calendorCardsCreate = (currentYear) => {
     }
 
     // In the below function call we are updating the value of daysCont on basis of total days in month.
-    let daysCont = generateCalendorDates(totalDaysOfMonth, monthId);
+    let daysCont = generateCalendorDates(
+      totalDaysOfMonth,
+      monthId,
+      currentYear
+    );
 
     monthsCont.appendChild(contHeader);
     monthsCont.appendChild(daysRow);
     monthsCont.appendChild(daysCont);
     calendorCont.appendChild(monthsCont);
   }
+
+  // let eventDaysHiglight = (() => {
+  //   if (allEventDays.dates) {
+  //     let object = allEventDays.dates;
+  //     for (let l = 0; l < object.length; l++) {
+  //       let currentEvent = object[l];
+  //       console.log(currentEvent, "yes");
+  //     }
+  //   }
+  // })();
+
   // The below code is written to highlight the current date of the month.
   let today = new Date();
   let date = today.getDate();
@@ -216,13 +294,19 @@ let calendorCardsCreate = (currentYear) => {
   if (document.getElementById("Year " + year)) {
     let currentMonth = monthList[month];
     console.log("Current Year");
-    if (document.getElementById(date + "-" + currentMonth)) {
-      let selectedColumn = document.getElementById(date + "-" + currentMonth);
+    if (document.getElementById(date + "-" + currentMonth + "-" + year)) {
+      let selectedColumn = document.getElementById(
+        date + "-" + currentMonth + "-" + year
+      );
       selectedColumn.style.backgroundColor = "black";
       selectedColumn.style.color = "white";
       selectedColumn.style.fontWeight = "600";
     }
   }
+};
+
+let eventHandler = (e) => {
+  console.log(e, "Test");
 };
 
 let currentYearHandler = (e) => {
@@ -327,6 +411,38 @@ let currentYearHandler = (e) => {
 };
 
 let defaultCalendorYear = (() => {
+  document.getElementById("createOpt").addEventListener("click", eventHandler);
+  let startDate = null;
+  let endDate = null;
+
+  for (let i = 0; i < events.years.length; i++) {
+    let dates = [];
+    let selectedYear = events.years[i];
+    let eventStartDate = selectedYear.start_date.split("-");
+    let eventEndDate = selectedYear.end_date.split("-");
+
+    startDate = eventStartDate[0];
+    endDate = eventEndDate[0];
+
+    let totalDays = endDate - startDate;
+
+    for (let j = startDate - 1; j < endDate; j++) {
+      dates.push(startDate + "-" + eventStartDate[1] + "-" + eventStartDate[2]);
+      for (let k = 0; k < events.years.length; k++) {
+        let currentObj = events.years[k];
+        if (currentObj.year === eventStartDate[2]) {
+          currentObj.eventDates = dates;
+          console.log("Yo", currentObj);
+        }
+      }
+      // allEventDays.dates = dates;
+      startDate = +startDate + 1;
+      // console.log(allEventDays);
+    }
+    // allEventDays.dates = dates;
+    // console.log(eventDates);
+  }
+
   calendorCardsCreate(baseYear.year);
 })();
 
@@ -357,13 +473,11 @@ let yearSelectionhandler = (() => {
       addYearOptions.value = currentYear;
       addYearOptions.innerText = currentYear;
       addYearOptions.setAttribute("id", currentYear);
-      // addYearOptions.addEventListener("click", calendorYearSelection);
       let yearSelector = document.getElementById("yearSelector");
       yearSelector.appendChild(addYearOptions);
       currentYear = +currentYear + 1;
     }
   } else {
-    let currentYear = baseYear.year;
-    console.log("success-2");
+    return;
   }
 })();

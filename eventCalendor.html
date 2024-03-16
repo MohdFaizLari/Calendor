@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <section class="mainCont" id="mainCont">
+      <header class="toolBar">
+        <div class="yearSelectionDropDown">
+          <label for="years">Select the Year</label>
+          <select name="years" id="yearSelector">
+            <!-- <option value="2001">2001</option>
+            <option value="2002">2002</option>
+            <option value="2003">2003</option>
+            <option value="2004">2004</option> -->
+          </select>
+        </div>
+        <div class="createOption" id="createOpt">
+          <p>Event</p>
+          <img
+            src="././media/add.png"
+            alt="Add an event"
+            height="20px"
+            width="30px"
+          />
+        </div>
+      </header>
+
+      <div class="calendorContainer" id="calendorCont"></div>
+    </section>
+    <script src="./eventCalendor.js"></script>
+  </body>
+</html>
