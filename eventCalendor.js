@@ -4,34 +4,29 @@ let firstDay = "Mo";
 let endDay = "Mo";
 let prevYear = "2001";
 
-let events = {
-  years: [
-    {
-      year: "2001",
-      month: "March",
-      start_date: "15-March-2001",
-      end_date: "17-March-2001",
-      name: "Doctor Appointment",
-    },
-    {
-      year: "2024",
-      month: "March",
-      start_date: "15-March-2024",
-      end_date: "16-March-2024",
-      name: "Calendor Project",
-    },
-    {
-      year: "2024",
-      month: "March",
-      start_date: "15-March-2024",
-      end_date: "17-March-2024",
-      name: "Self Learning",
-    },
-  ],
-};
-
-// The below variable is to store the event dates.
-// let allEventDays = {};
+let events = [
+  {
+    year: "2001",
+    month: "March",
+    start_date: "15-March-2001",
+    end_date: "17-March-2001",
+    name: "Doctor Appointment",
+  },
+  {
+    year: "2024",
+    month: "March",
+    start_date: "15-March-2024",
+    end_date: "16-March-2024",
+    name: "Calendor Project",
+  },
+  {
+    year: "2024",
+    month: "March",
+    start_date: "15-March-2024",
+    end_date: "17-March-2024",
+    name: "Self Learning",
+  },
+];
 
 let monthInfo = {
   jan: { endDate: "31" },
@@ -105,11 +100,11 @@ let weekDaysFunction = () => {
 let selectColumn = (e) => {
   console.log(e.target.id);
   let element = document.getElementById(e.target.id);
-  // if (e.target.click) {
-  //   element.style.hov = "red";
-  // } else {
-  //   element.style.backgroundColor = "white";
-  // }
+  if (e.target.click) {
+    element.style.backgroundColor = "lightgrey";
+  } else {
+    element.style.backgroundColor = "white";
+  }
 };
 
 let generateCalendorDates = (numberOfDays, currentMonth, currentYear) => {
@@ -166,36 +161,6 @@ let generateCalendorDates = (numberOfDays, currentMonth, currentYear) => {
           "id",
           date + "-" + currentMonth + "-" + currentYear
         );
-
-        // for (let l = 0; l < events.years.length; l++) {
-        //   let date = 1;
-        //   let allEventDays = {};
-        //   let selectedYear = events.years[l];
-        //   let eventStartDate = selectedYear.start_date;
-        //   let eventEndDate = selectedYear.end_date;
-        //   endDate = eventEndDate;
-        //   // console.log(eventStartDate, eventEndDate);
-        //   if (currentYear === selectedYear.year) {
-        //     startDate = eventStartDate.split("-");
-        //     startDate = startDate[0];
-        //     endDate = eventEndDate.split("-");
-        //     endDate = endDate[0];
-
-        //     if (currentMonth === selectedYear.month) {
-        //       let totalDays = endDate - startDate;
-        //       console.log(totalDays);
-
-        //       for (let m =0;m<totalDays;m++) {
-
-        //       }
-
-        //       // if (date == initalDate) {
-        //       //   column.style.backgroundColor = "lightblue";
-        //       //   column.style.fontWeight = "600";
-        //       // }
-        //     }
-        //   }
-        // }
 
         column.style.display = "flex";
         column.style.padding = "5px";
@@ -276,15 +241,21 @@ let calendorCardsCreate = (currentYear) => {
     calendorCont.appendChild(monthsCont);
   }
 
-  // let eventDaysHiglight = (() => {
-  //   if (allEventDays.dates) {
-  //     let object = allEventDays.dates;
-  //     for (let l = 0; l < object.length; l++) {
-  //       let currentEvent = object[l];
-  //       console.log(currentEvent, "yes");
-  //     }
-  //   }
-  // })();
+  if (events.length) {
+    let object = events;
+    for (let l = 0; l < object.length; l++) {
+      let currentEvent = object[l].eventDates;
+      if (currentEvent.length) {
+        for (let m = 0; m < currentEvent.length; m++) {
+          let eventColumn = document.getElementById(currentEvent[m]);
+          if (document.getElementById(currentEvent[m])) {
+            eventColumn.style.backgroundColor = "lightblue";
+            eventColumn.style.fontWeight = "600";
+          }
+        }
+      }
+    }
+  }
 
   // The below code is written to highlight the current date of the month.
   let today = new Date();
@@ -415,32 +386,27 @@ let defaultCalendorYear = (() => {
   let startDate = null;
   let endDate = null;
 
-  for (let i = 0; i < events.years.length; i++) {
+  for (let i = 0; i < events.length; i++) {
     let dates = [];
-    let selectedYear = events.years[i];
-    let eventStartDate = selectedYear.start_date.split("-");
-    let eventEndDate = selectedYear.end_date.split("-");
+    let eventInfo = events[i];
 
-    startDate = eventStartDate[0];
-    endDate = eventEndDate[0];
+    const eventStartDateInfoList = eventInfo.start_date.split("-");
+    const eventEndDateInfoList = eventInfo.end_date.split("-");
 
-    let totalDays = endDate - startDate;
+    startDate = eventStartDateInfoList[0];
+    endDate = eventEndDateInfoList[0];
 
-    for (let j = startDate - 1; j < endDate; j++) {
-      dates.push(startDate + "-" + eventStartDate[1] + "-" + eventStartDate[2]);
-      for (let k = 0; k < events.years.length; k++) {
-        let currentObj = events.years[k];
-        if (currentObj.year === eventStartDate[2]) {
-          currentObj.eventDates = dates;
-          console.log("Yo", currentObj);
-        }
-      }
-      // allEventDays.dates = dates;
+    for (let j = startDate; j <= endDate; j++) {
+      dates.push(
+        startDate +
+          "-" +
+          eventStartDateInfoList[1] +
+          "-" +
+          eventStartDateInfoList[2]
+      );
+      eventInfo.eventDates = dates;
       startDate = +startDate + 1;
-      // console.log(allEventDays);
     }
-    // allEventDays.dates = dates;
-    // console.log(eventDates);
   }
 
   calendorCardsCreate(baseYear.year);
@@ -448,7 +414,6 @@ let defaultCalendorYear = (() => {
 
 let calendorYearSelection = (e) => {
   let year = document.getElementById("yearSelector");
-  // console.log(e.target[year.selectedIndex].value);
   if (year.selectedIndex >= 0) {
     let requiredYearCalendor = year.options[year.selectedIndex].value;
     if (prevYear !== requiredYearCalendor) {
